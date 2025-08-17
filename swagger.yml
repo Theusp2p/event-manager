@@ -1,0 +1,75 @@
+# Esta é a versão da especificação OpenAPI.
+openapi: 3.0.0
+
+# 'info' contém os metadados da sua API.
+info:
+  title: API de Eventos
+  description: Uma API simples e completa para gerenciar eventos.
+  version: 1.0.0
+
+# 'servers' define a URL base da sua API.
+servers:
+  - url: http://localhost:8080
+    description: Servidor de desenvolvimento local
+
+# 'paths' é a seção mais importante, onde você descreve cada endpoint.
+paths:
+  /eventos:
+    # A operação GET para o endpoint /eventos.
+    get:
+      summary: Retorna a lista de todos os eventos
+      description: Este endpoint busca e retorna todos os eventos abertos.
+      responses:
+        # A resposta de sucesso (código 200).
+        '200':
+          description: Uma lista de eventos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+
+    # A operação POST para o endpoint /eventos.
+    post:
+      summary: Cria um novo evento
+      description: Cria um novo evento no banco de dados.
+      requestBody:
+        description: Objeto do evento a ser adicionado.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '201':
+          description: Evento criado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Requisição inválida.
+
+# 'components' define os modelos de dados e outros objetos reutilizáveis.
+components:
+  schemas:
+    # O modelo de dados para um Event.
+    Event:
+      type: object
+      properties:
+        id:
+          # Alterado para 'integer' e 'int64' para corresponder a um tipo Long em Java.
+          type: integer
+          format: int64
+          description: O ID único do evento.
+        title:
+          type: string
+          description: O título do evento.
+        description:
+          type: string
+          description: A descrição do evento.
+      example:
+        id: 1
+        title: Aniversário de Goiânia
+        description: Realizado para comemorar o aniversário da capital de GO.
