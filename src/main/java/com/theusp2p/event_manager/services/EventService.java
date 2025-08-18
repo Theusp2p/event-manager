@@ -27,6 +27,12 @@ public class EventService {
         return eventRepository.findAll();
     }
 
+    public EventResponseDTO findEventById(UUID id) {
+        Event eventFound = eventRepository.findById(id).orElseThrow( () -> new RuntimeException("Event not found"));
+        return eventMapper.toDTO(eventFound);
+
+    }
+
     @Transactional
     public EventResponseDTO createEvent(EventRequestDTO eventRequestDTO) {
 
@@ -37,5 +43,30 @@ public class EventService {
         Event savedEvent = eventRepository.save(newEvent);
 
         return eventMapper.toDTO(savedEvent);
+    }
+
+    public void deleteEventById(UUID id) {
+        Event event = eventRepository.findById(id).orElseThrow( () -> new RuntimeException("Event not found"));
+        eventRepository.delete(event);
+    }
+
+    public EventResponseDTO updateEventById(UUID id, EventRequestDTO eventRequestDTO) {
+        Event eventFound = eventRepository.findById(id).orElseThrow( () -> new RuntimeException("Event not found"));
+
+        if (eventRequestDTO.title() != null) {
+            eventFound.setTitle(eventRequestDTO.title());
+        }
+        if (eventRequestDTO.description() != null) {
+            eventFound.setDescription(eventRequestDTO.description());
+        }
+        if (eventRequestDTO.date() != null) {
+            eventFound.setDate(eventRequestDTO.date());
+        }
+        if (eventRequestDTO.location() != null) {
+            eventFound.setLocation(eventRequestDTO.location());
+        }
+        Event updatedEvent = eventRepository.save(eventFound);
+
+        return eventMapper.toDTO(updatedEvent);
     }
 }
