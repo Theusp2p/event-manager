@@ -2,11 +2,14 @@ package com.theusp2p.event_manager.entities;
 
 import com.theusp2p.event_manager.entities.enums.Role;
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "tb_user")
+@Data
 public class User {
 
     @Id

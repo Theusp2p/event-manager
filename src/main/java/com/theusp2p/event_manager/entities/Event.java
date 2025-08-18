@@ -1,12 +1,15 @@
 package com.theusp2p.event_manager.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "event")
+@Data
 public class Event {
 
     @Id
@@ -17,6 +20,7 @@ public class Event {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
     @Column
+    @DateTimeFormat
     private LocalDateTime date;
     @Column
     private String location;
