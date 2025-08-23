@@ -1,7 +1,6 @@
 package com.theusp2p.event_manager.services;
 
 import com.theusp2p.event_manager.dtos.EventRequestDTO;
-import com.theusp2p.event_manager.dtos.EventRequestDTO;
 import com.theusp2p.event_manager.dtos.EventResponseDTO;
 import com.theusp2p.event_manager.entities.Event;
 import com.theusp2p.event_manager.entities.User;
@@ -36,9 +35,10 @@ public class EventService {
     @Transactional
     public EventResponseDTO createEvent(EventRequestDTO eventRequestDTO) {
 
+        User organizer = userRepository.findById(eventRequestDTO.organizerId()).orElseThrow( () -> new RuntimeException("User not found"));
+
         Event newEvent = eventMapper.toEntity(eventRequestDTO);
 
-        User organizer = userRepository.findById(eventRequestDTO.organizerId()).orElseThrow( () -> new RuntimeException("User not found"));
         newEvent.setOrganizer(organizer);
         Event savedEvent = eventRepository.save(newEvent);
 

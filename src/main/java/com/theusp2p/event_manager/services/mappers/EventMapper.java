@@ -12,7 +12,7 @@ public interface EventMapper {
     @Mapping(target = "organizer", ignore = true)
     Event toEntity(EventRequestDTO eventDTO);
 
-    @Mapping(source = "organizer.id", target = "organizerId")
+    @Mapping(source = "organizer.name", target = "organizer")
     EventResponseDTO toDTO(Event event);
 
 }
